@@ -80,6 +80,9 @@
             border-radius: 8px;
             width: calc(100% - 40px);
         }
+        .hidden {
+            display: none;
+        }
         .shake {
             animation: shake 0.5s;
         }
@@ -107,6 +110,8 @@
         <div class="password-input-container">
             <input type="password" class="password-input" id="password-input" placeholder="输入密码" />
             <button class="button" onclick="validatePassword()">提交</button>
+            <!-- 新增的跳转按钮 -->
+            <button class="button hidden" id="jumpToPage1" onclick="jumpToPage1()">跳转到1.html</button>
         </div>
         <!-- 预留按钮 -->
         <button id="reservedButton" class="button 预留" onclick="reservedFunction()">refresh</button>
@@ -115,11 +120,15 @@
     <script>
         var passwordContainer = document.querySelector('.password-input-container');
         var togglePasswordButton = document.getElementById('togglePasswordButton');
+        var jumpToPage1Button = document.getElementById('jumpToPage1');
 
         function togglePasswordInput() {
             passwordContainer.style.display = passwordContainer.style.display === 'block' ? 'none' : 'block';
             passwordContainer.classList.toggle('visible');
             togglePasswordButton.classList.toggle('active');
+
+            // 切换跳转按钮的可见性
+            jumpToPage1Button.classList.toggle('hidden');
         }
 
         function validatePassword() {
@@ -131,6 +140,10 @@
             } else {
                 alert("密码错误，请重新输入！");
             }
+        }
+
+        function jumpToPage1() {
+            window.location.href = '1.html';
         }
 
         function reservedFunction() {
