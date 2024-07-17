@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>蓝奏云文件下载</title>
+    <script>
+        function fetchFiles() {
+            const link = "https://wwt.lanzouq.com/b04l4jdpc";
+            const password = document.getElementById('password').value;
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const files = JSON.parse(xhr.responseText);
+                    const fileList = document.getElementById('file-list');
+                    fileList.innerHTML = '';
+                    files.forEach(file => {
+                        const item = document.createElement('div');
+                        item.innerHTML = `
+                            <p>${file.name}</p>
+                            <button onclick="downloadFile('${file.url}')">下载</button>
+                        `;
+                        fileList.appendChild(item);
+                    });
+                }
+            };
+            xhr.open('GET', link + "?key=" + password, true);
+            xhr.send();
+        }
+
+        function downloadFile(fileUrl) {
+            window.open(fileUrl, '_blank');
+        }
+    </script>
+</head>
+<body>
+    <h1>蓝奏云文件下载</h1>
+    <input type="text" id="password" placeholder="请输入蓝奏云密码">
+    <button onclick="fetchFiles()">获取文件列表</button>
+    <div id="file-list"></div>
+</body>
+</html>
