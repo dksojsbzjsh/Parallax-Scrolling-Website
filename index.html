@@ -16,7 +16,6 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            position: relative; /* 相对定位以便于放置小球 */
         }
         .background {
             position: fixed;
@@ -48,7 +47,7 @@
             color: #FFFFFF;
             background-color: #64B5F6; /* 浅蓝色按钮 */
             border: none;
-            border-radius: 50%;
+            border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -93,19 +92,6 @@
             from { transform: scale(1); }
             to { transform: scale(1.05); }
         }
-        .bomb {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: red;
-            border-radius: 50%;
-            cursor: grab;
-            animation: explode 7s linear;
-        }
-        @keyframes explode {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(10); opacity: 0; }
-        }
     </style>
 </head>
 <body>
@@ -126,12 +112,9 @@
         <button id="reservedButton" class="button 预留" onclick="reservedFunction()">refresh</button>
     </div>
 
-    <div class="bomb" id="bomb"></div>
-
     <script>
         var passwordContainer = document.querySelector('.password-input-container');
         var togglePasswordButton = document.getElementById('togglePasswordButton');
-        var bomb = document.getElementById('bomb');
 
         function togglePasswordInput() {
             passwordContainer.style.display = passwordContainer.style.display === 'block' ? 'none' : 'block';
@@ -147,7 +130,6 @@
                 togglePasswordInput(); // 隐藏密码输入框
             } else {
                 alert("密码错误，请重新输入！");
-                showBomb();
             }
         }
 
@@ -157,49 +139,6 @@
                 document.body.classList.remove('shake');
                 window.location.href = '1.html'; // 跳转到1.html
             }, 500);
-        }
-
-        function showBomb() {
-            bomb.style.display = 'block';
-            var posX = document.body.clientWidth / 2 - 50; // 初始位置
-            var posY = document.body.clientHeight / 2 - 50;
-            bomb.style.left = posX + 'px';
-            bomb.style.top = posY + 'px';
-
-            bomb.addEventListener('mousedown', dragStart);
-            bomb.addEventListener('touchstart', dragStart);
-
-            function dragStart(e) {
-                e.preventDefault();
-                bomb.style.position = 'absolute';
-                bomb.style.zIndex = '10';
-
-                function drag(e) {
-                    e.preventDefault();
-                    var dx = e.clientX - posX;
-                    var dy = e.clientY - posY;
-                    posX = dx;
-                    posY = dy;
-                    bomb.style.left = posX + 'px';
-                    bomb.style.top = posY + 'px';
-
-                    bomb.addEventListener('mousemove', drag);
-                    bomb.addEventListener('touchmove', drag);
-                }
-
-                function dragEnd(e) {
-                    e.preventDefault();
-                    bomb.style.position = '';
-                    bomb.style.zIndex = '';
-                    bomb.removeEventListener('mousemove', drag);
-                    bomb.removeEventListener('touchmove', drag);
-                }
-
-                document.addEventListener('mouseup', dragEnd);
-                document.addEventListener('touchend', dragEnd);
-
-                drag(e);
-            }
         }
     </script>
 
