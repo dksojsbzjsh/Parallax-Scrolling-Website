@@ -1,76 +1,132 @@
 <!DOCTYPE html>
-<html lang="cn">
+<html lang="zh">
 <head>
-  <title>Parallax Scrolling Website</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥 - 炫酷跳转页面</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .button, .password-input {
+            position: relative;
+            padding: 15px 30px;
+            font-size: 20px;
+            color: #fff;
+            background: rgba(0, 123, 255, 0.8);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .button:hover, .password-input:hover {
+            background: rgba(0, 123, 255, 1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+        }
+        .button:active, .password-input:active {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transform: translateY(0);
+        }
+        .password-input {
+            width: 250px;
+            margin-bottom: 20px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .password-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 1);
+        }
+        .password-input::placeholder {
+            color: #aaa;
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            animation: rippleEffect 1s ease-out;
+        }
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: logoAnimation 5s infinite;
+        }
+        @keyframes logoAnimation {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <a href="#" class="组织">Logo</a>
-    <ul>
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Work</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </header>
-  <section>
-    <img src="images/stars.png" id="stars">
-    <img src="images/moon.png" id="moon">
-    <img src="images/mountains_behind.png" id="mountains_behind">
-    <h2 id="text">"The Arcane Order" </h2>
-    <a href="#sec" id="btn">Explore</a>
-    <img src="images/mountains_front.png" id="mountains_front">
-  </section>
-  <div class="sec" id="sec">
-    <h2>Parallax Scrolling Effects</h2>
-    <p>在一所普通的高中里，存在着一个名为“组织”的神秘学生团体。它没有华丽的名称，也没有显眼的标志，但“组织”在学生中却有着不可小觑的影响力和吸引力。以下是该组织的基本介绍：
+    <div class="container">
+        <h1 class="logo">桥</h1>
+        <input type="password" class="password-input" placeholder="输入密码" id="password-input">
+        <button onclick="checkPassword()" class="button">访问蓝奏云文件</button>
+    </div>
 
-**组织宗旨**
-“组织”致力于提供一个平台，让学生能够自由地交流思想、分享知识、培养能力，并在互助合作中实现个人成长。它鼓励成员们追求卓越，勇于创新，同时保持谦逊和尊重他人。
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("password-input").value;
+            if (password === "xgzs") {
+                window.location.href = "https://wwt.lanzouq.com/b04l4jdpc";
+            } else {
+                alert("密码错误，请重新输入！");
+            }
+        }
 
-**组织结构**
-“组织”由一位资深教师担任指导，下设多个部门，包括学术部、艺术部、体育部、社会实践部等，每个部门都有学生负责人。这些部门相互协作，共同推动组织的发展。
+        function createRipple(event) {
+            var ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            ripple.style.width = event.target.offsetWidth + 'px';
+            ripple.style.height = event.target.offsetHeight + 'px';
+            ripple.style.left = event.pageX - event.target.offsetLeft - ripple.offsetWidth / 2 + 'px';
+            ripple.style.top = event.pageY - event.target.offsetTop - ripple.offsetHeight / 2 + 'px';
+            event.target.appendChild(ripple);
+        }
 
-**成员选拔**
-加入“组织”需要经过严格的选拔过程，包括面试、小组讨论和个人展示等环节。选拔标准不仅看重学术成绩，更注重个人的潜力、团队精神和领导能力。
-
-**特色活动**
-- **主题研讨会**：定期举办不同主题的研讨会，让成员们就某一领域或问题进行深入探讨。
-- **创意工作坊**：鼓励成员们发挥创造力，开展各类手工制作、艺术创作等活动。
-- **社会实践**：组织成员参与社区服务、环境保护等社会实践活动，培养社会责任感。
-- **学术竞赛**：鼓励成员参加各类学术竞赛，如数学竞赛、科学竞赛等，提升学术水平。
-
-**神秘元素**
-“组织”内部有一个被称为“密室”的神秘空间，这里存放着组织的历史资料和成员们的创意成果。只有通过一系列考验的成员才能进入这个空间。
-
-**对外交流**
-“组织”积极与其他学校的学生团体建立联系，通过交流会、联合活动等形式，拓宽成员的视野，促进不同学校间的文化交流。
-
-**结语**
-“组织”是一个充满神秘感和探索精神的学生团体，它为成员们提供了一个展示自我、实现梦想的舞台。在这里，每个人都可以找到属于自己的位置，发挥自己的特长，同时也能在探索中不断成长。加入“组织”，你将开启一段充满挑战和机遇的旅程。</p>
-  </div>
-
-  <script>
-    let stars = document.getElementById('stars')
-    let moon = document.getElementById('moon')
-    let mountains_behind = document.getElementById('mountains_behind')
-    let text = document.getElementById('text')
-    let btn = document.getElementById('btn')
-    let mountains_front = document.getElementById('mountains_front')
-    let header = document.querySelector('header')
-
-    window.addEventListener('scroll', function(){
-      let value = window.scrollY;
-      stars.style.left = value * 0.25 + 'px'
-      moon.style.top = value * 1.05 + 'px'
-      mountains_behind.style.top = value * 0.5 + 'px'
-      mountains_front.style.top = value * 0 + 'px'
-      text.style.marginRight = value * 4 + 'px'
-      text.style.marginTop = value * 1.5 + 'px'
-      btn.style.marginTop = value * 1.5 + 'px'
-      header.style.top = value * 0.5 + 'px'
-    })
-  </script>
+        var interactiveElements = document.querySelectorAll('.button, .password-input');
+        interactiveElements.forEach(function(el) {
+            el.addEventListener('mousedown', createRipple);
+            el.addEventListener('touchstart', createRipple);
+        });
+    </script>
 </body>
-</html
+</html>
