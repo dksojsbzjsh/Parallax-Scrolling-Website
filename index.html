@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>组织</title>
+    <title>桥 - Material You 设计风格页面</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
             margin: 0;
             font-family: 'Google Sans', 'Arial', sans-serif;
-            background: #F5F5F5; /* 灰色背景 */
+            background-color: #F5F5F5; /* 灰色背景 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #6E6E6E; /* 文字颜色 */
+            overflow: hidden;
         }
         .background {
             position: fixed;
@@ -25,61 +25,64 @@
             height: 100%;
             background-image: url('https://source.unsplash.com/1600x900?gray'); /* 灰色背景图片 */
             background-size: cover;
-            filter: blur(20px); /* 高斯模糊 */
+            filter: blur(5px); /* 高斯模糊 */
             z-index: -1;
         }
         .content {
-            max-width: 90%;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.8); /* 内容背景 */
-            border-radius: 16px; /* 圆角 */
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* 阴影 */
-        }
-        .button {
-            padding: 16px 32px;
-            font-size: 18px;
-            color: #FFFFFF;
-            background: #9E9E9E; /* 灰色按钮 */
-            border: none;
-            border-radius: 24px; /* 圆角 */
-            cursor: pointer;
-            transition: box-shadow 0.3s ease;
-            margin: 8px;
-        }
-        .button:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* 悬浮效果 */
-        }
-        .button:active {
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* 按下效果 */
-        }
-        .password-input {
-            padding: 16px;
-            font-size: 18px;
-            color: #333333;
-            background: #E0E0E0; /* 输入框背景 */
-            border: none;
-            border-radius: 24px;
-            width: 100%;
-            margin-top: 24px;
-        }
-        .password-input:focus {
-            outline: none;
-            border: 2px solid #9E9E9E; /* 聚焦效果 */
-        }
-        .password-input::placeholder {
-            color: #9B9B9B;
-        }
-        .material-icons {
-            font-family: 'Material Icons';
-            font-size: 24px;
-            margin-right: 8px;
+            padding: 20px;
+            text-align: center;
         }
         .logo {
-            font-size: 3em;
+            font-size: 2em;
             margin-bottom: 20px;
+        }
+        .button {
+            padding: 15px 30px;
+            margin: 5px;
+            font-size: 1em;
+            color: #FFFFFF;
+            background-color: #9E9E9E; /* 灰色按钮 */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+        .password-input-container {
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .password-input-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .password-input {
+            padding: 15px;
+            margin: 5px;
+            font-size: 1em;
+            color: #333;
+            background-color: #E0E0E0;
+            border: none;
+            border-radius: 8px;
+            width: calc(100% - 40px);
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
         }
     </style>
 </head>
@@ -88,19 +91,24 @@
     <div class="background"></div>
 
     <div class="content">
-        <h1 class="logo">组织</h1>
+        <h1 class="logo">桥</h1>
         <button class="button material-icons" onclick="window.location.href='https://qr.dingtalk.com/action/joingroup?code=v1';">send</button>
-        <div id="passwordContainer" style="display: none;">
-            <input type="password" class="password-input" id="password-input" placeholder="输入密码">
+        <button id="togglePasswordButton" class="button material-icons" onclick="togglePasswordInput();">vpn_key</button>
+        <div class="password-input-container">
+            <input type="password" class="password-input" id="password-input" placeholder="输入密码" />
             <button class="button" onclick="validatePassword()">提交</button>
         </div>
-        <button class="button material-icons" onclick="togglePasswordInput();">vpn_key</button>
+        <button id="reservedButton" class="button 预留" onclick="reservedFunction()">refresh</button>
     </div>
 
     <script>
+        var passwordContainer = document.querySelector('.password-input-container');
+        var togglePasswordButton = document.getElementById('togglePasswordButton');
+        var reservedButton = document.getElementById('reservedButton');
+
         function togglePasswordInput() {
-            var passwordContainer = document.getElementById('passwordContainer');
-            passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
+            passwordContainer.classList.toggle('visible');
+            togglePasswordButton.classList.toggle('active');
         }
 
         function validatePassword() {
@@ -111,6 +119,14 @@
                 alert("密码错误，请重新输入！");
                 passwordInput.value = '';
             }
+        }
+
+        function reservedFunction() {
+            document.body.classList.add('shake');
+            setTimeout(function() {
+                document.body.classList.remove('shake');
+                window.location.reload();
+            }, 500);
         }
     </script>
 
