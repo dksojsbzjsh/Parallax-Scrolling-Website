@@ -3,76 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>桥 - 炫酷跳转页面</title>
+    <title>桥 - Material You 设计风格页面</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Google Sans', 'Arial', sans-serif;
+            background: #F8F0FC; /* 背景色 */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-around;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            justify-content: center;
+            color: #5C36C6; /* 文字颜色 */
         }
         .background {
-            width: 100%;
-            height: 100%;
             position: fixed;
             top: 0;
             left: 0;
-            background-image: url(''); /* 壁纸链接将在这里设置 */
-            filter: blur(8px);
+            width: 100%;
+            height: 100%;
+            background-image: url('https://source.unsplash.com/1600x900?nature'); /* 背景图片 */
+            background-size: cover;
+            filter: blur(20px); /* 高斯模糊 */
             z-index: -1;
-            opacity: 0.5;
         }
         .content {
-            max-width: 800px;
-            text-align: center;
-            position: relative;
-            padding: 20px;
-            z-index: 1;
-        }
-        .button-container {
+            max-width: 90%;
+            padding: 16px;
             display: flex;
-            justify-content: space-around;
-            width: 100%;
-            max-width: 600px;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8); /* 内容背景 */
+            border-radius: 16px; /* 圆角 */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* 阴影 */
         }
         .button {
-            padding: 15px 30px;
-            font-size: 20px;
-            color: #fff;
-            background: rgba(0,123,255,0.7);
+            padding: 16px 32px;
+            font-size: 18px;
+            color: #FFFFFF;
+            background: #6A0DAD; /* 按钮颜色 */
             border: none;
-            border-radius: 5px;
+            border-radius: 24px; /* 圆角 */
             cursor: pointer;
-            transition: transform 0.2s;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: box-shadow 0.3s ease;
+            margin: 8px;
         }
         .button:hover {
-            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* 悬浮效果 */
         }
         .button:active {
-            box-shadow: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* 按下效果 */
         }
-        .ripple {
-            background-position: center;
-            transition: background 0.8s;
+        .password-input {
+            padding: 16px;
+            font-size: 18px;
+            color: #333333;
+            background: #E0D8F2; /* 输入框背景 */
+            border: none;
+            border-radius: 24px;
+            width: 100%;
+            margin-top: 24px;
         }
-        .ripple:active {
-            background: rgba(255, 255, 255, 0.3);
-            background-size: 100%;
-            border-radius: 5px;
+        .password-input:focus {
+            outline: none;
+            border: 2px solid #6A0DAD; /* 聚焦效果 */
         }
-        .logo {
-            font-size: 3em;
-            margin-bottom: 0.5em;
+        .password-input::placeholder {
+            color: #9B9B9B;
+        }
+        .material-icons {
+            font-family: 'Material Icons';
+            font-size: 24px;
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -82,15 +85,29 @@
 
     <div class="content">
         <h1 class="logo">桥</h1>
-        <div class="button-container">
-            <a href="https://wwt.lanzouq.com/b04l4jdpc" class="button ripple" onclick="event.preventDefault(); alert('密码: xgzs');">蓝奏云文件</a>
-            <a href="https://qr.dingtalk.com/action/joingroup?code=v1" class="button ripple">加入钉钉群聊</a>
+        <button class="button material-icons" onclick="window.location.href='https://qr.dingtalk.com/action/joingroup?code=v1';">send</button>
+        <div id="passwordContainer" style="display: none;">
+            <input type="password" class="password-input" id="password-input" placeholder="输入密码">
+            <button class="button" onclick="validatePassword()">提交</button>
         </div>
+        <button class="button material-icons" onclick="togglePasswordInput();">vpn_key</button>
     </div>
 
     <script>
-        // 将背景壁纸链接设置为必应壁纸链接
-        document.querySelector('.background').style.backgroundImage = "url('https://www.bing.com/th?id=OHR.YosemiteNPS_ZH-CN3667178728_1920x1080.jpg')";
+        function togglePasswordInput() {
+            var passwordContainer = document.getElementById('passwordContainer');
+            passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function validatePassword() {
+            var passwordInput = document.getElementById('password-input');
+            if (passwordInput.value === "xgzs") {
+                window.location.href = "https://wwt.lanzouq.com/b04l4jdpc";
+            } else {
+                alert("密码错误，请重新输入！");
+                passwordInput.value = '';
+            }
+        }
     </script>
 
 </body>
